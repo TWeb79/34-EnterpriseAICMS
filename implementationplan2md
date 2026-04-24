@@ -1,0 +1,867 @@
+Below are the two extracted and extended files. The migration layer from your input is fully integrated, so the architecture now explicitly describes how legacy and new systems coexist, and the implementation plan provides a phased, risk-managed rollout that avoids big-bang failure.
+
+I've verified that every element from the merged HTML concept is preserved—core vision, five-layer architecture, AI guardrails, token system, SDC component registry, quality gates, federated governance, critical success factors, KPIs, conversational UI, and the end-state prompt-to-publish flow—while the migration extension closes the "greenfield assumption" gap.
+
+---
+
+📄 architecture.md
+
+```markdown
+# Architecture — Agentic Intent-to-Experience Platform
+
+> Drupal-based enterprise WebCM with AI-augmented, token-driven, component-first design system. Migration-aware from day one.
+
+---
+
+## 1. Core Vision
+
+**Single sentence:** An AI-augmented, token-driven, component-first Drupal platform where any authorized editor can compose beautiful, WCAG AA–compliant, brand-coherent websites — and where the system structurally prevents the creation of anything insecure, inaccessible, or off-brand.
+
+### Three Structural Guarantees
+
+| Guarantee | Mechanism |
+|-----------|-----------|
+| **Quality by Construction** | Components are pre-built, pre-tested, pre-validated. Editors assemble — they do not build from scratch. |
+| **AI as Constrained Composer** | AI generates, selects, and arranges only from the design system's vocabulary. It does not escape it. |
+| **Governance Without Bureaucracy** | Rules are code, not committees. Approval workflows trigger only for exceptions outside the validated envelope. |
+
+> The design system is not a style-guide PDF. It is a living, versioned, machine-readable contract between designers, developers, content authors, and AI — enforced at build time, render time, and publish time.
+
+---
+
+## 2. Migration-Aware Architecture
+
+**You are not replacing the system. You are wrapping and evolving it.**
+
+### Guiding Principle
+
+> Migrate behavior, not just code. Replace decisions, not just components.
+
+### Migration Philosophy
+
+- No big-bang rewrite
+- Parallel systems, gradual adoption
+- Measure progress via **component coverage**, not site count
+- New system proves value before replacing old
+
+### Approach: Strangler Fig Pattern
+
+```
+
+Legacy Drupal → Hybrid → Component-driven → Fully Agentic
+
+```
+
+Incrementally replace:
+1. **Styles → Tokens**
+2. **Components → SDC**
+3. **Layouts → Patterns**
+4. **Authoring → AI**
+
+---
+
+## 3. Transitional Architecture Diagram
+
+```
+
+┌──────────────────────────────────┐
+│     Experience Layer             │
+│  (Conversational UI + Legacy UI) │
+└──────────────┬───────────────────┘
+↓
+┌──────────────────────────────────┐
+│     Agent Layer (New)            │
+│  Prompt→Layout, Token Variator,  │
+│  Pre-flight Validation           │
+└──────────────┬───────────────────┘
+↓
+┌──────────────────────────────────┐
+│     Composition Engine (New)     │
+│  Layout Builder / Experience     │
+│  Builder configs from AI         │
+└──────────────┬───────────────────┘
+↓
+┌──────────────────────────────────┐
+│     Component Layer              │
+│  SDC Library + Legacy Components │
+└──────────────┬───────────────────┘
+↓
+┌──────────────────────────────────┐
+│     Compatibility Layer          │
+│  Adapters, Mappers, Transformers │
+└──────────────┬───────────────────┘
+↓
+┌──────────────────────────────────┐
+│  Drupal Core — Legacy + New      │
+│  Structured content, permissions,│
+│  multisite, JSON:API             │
+└──────────────────────────────────┘
+
+```
+
+---
+
+## 4. The Five-Layer Target Architecture
+
+### Layer 1 — Foundation
+- Drupal 10/11 (headless/hybrid)
+- Structured content model, permissions, multisite
+- GitOps fleet management (Kubernetes, ArgoCD, Terraform)
+- Security baseline: CSP, RBAC, WAF, automated patching, audit logs
+- CI/CD quality gates: visual regression, a11y, performance, OWASP
+
+### Layer 2 — Design Tokens
+- **Global Token Foundation:** Colour ramps, type scale, space, radii, motion
+- **Semantic Tokens:** `color-action-primary`, `space-section-gap`, etc.
+- **Multi-Brand Overlays:** Regional/campaign token sets with validated palettes
+- **Style Dictionary Pipeline:** Figma Tokens → JSON → CSS custom properties → Drupal theme
+- All sites derive from a single versioned token foundation
+
+### Layer 3 — Component & Pattern
+- **Drupal SDC Library:** 50–200+ audited components, each with Storybook stories
+- **Machine-Readable Registry:** JSON schema per component describing purpose, slots, allowed styles, a11y metadata, token bindings
+- **Page Pattern Store:** AI-generated layouts saved as reusable global templates, tagged by intent
+- **Variant Engine:** Theme overrides within token bounds only
+
+### Layer 4 — AI Orchestration
+- **Prompt-to-Layout Engine:** LLM (Claude/GPT-4o) maps natural-language intent to components & tokens using the component registry as system context
+- **Guardrailed Token Variator:** Mood-based style adjustments within predefined safe numeric ranges (e.g., hue ±15°, spacing ±0.25×)
+- **Quality Pre-Flight:** axe-core, Pa11y, CSP scan, contrast check on every AI output before the editor sees it
+- **Component Gap Detector:** Logs unmet intent → feeds quarterly component backlog
+
+### Layer 5 — Experience
+- **Conversational UI:** AI prompt panel, layout preview, refinement chat inside Drupal admin
+- **Content Studio:** Decoupled editing with inline SEO, alt-text generation, inclusive-language checks
+- **Self-Service Dashboard:** Site provisioning, token overrides, analytics
+
+---
+
+## 5. Compatibility Layer (Critical Addition)
+
+### Purpose
+Bridge old and new systems during migration. This layer is temporary and is removed in the final state.
+
+### Responsibilities
+
+#### 5.1 Component Adapters
+```json
+{
+  "legacy_component": "hero_old",
+  "maps_to": "hero_sdc",
+  "field_mapping": {
+    "headline": "title",
+    "image": "media",
+    "cta_text": "call_to_action.label",
+    "cta_url": "call_to_action.url"
+  }
+}
+```
+
+5.2 Content Transformers
+
+· Normalize field structures across inconsistent content types
+· Resolve duplicated or conflicting field definitions
+· Map legacy Paragraph structures to new component configurations
+
+5.3 Layout Interpreters
+
+· Detect legacy layout configurations (Panels, Layout Builder old sections, Paragraphs)
+· Convert to equivalent new-system Layout Builder or Experience Builder configs
+· Flag unmappable layouts for manual migration
+
+5.4 Hybrid Rendering Model
+
+During migration, a single page may contain:
+
+```
+Page = Legacy Blocks + SDC Components
+```
+
+Requirements:
+
+· Shared styling layer (design tokens)
+· No visual drift between legacy and new components
+· Unified CSS custom properties across both systems
+
+---
+
+6. Hybrid Rendering Architecture
+
+```
+Request
+   ↓
+Drupal Router
+   ↓
+Page Controller
+   ↓
+Hybrid Renderer
+   ├── Legacy Blocks → Legacy Theme (token-mapped CSS)
+   └── SDC Components → New Theme (same CSS variables)
+   ↓
+Unified HTML Response
+```
+
+Rules:
+
+· Both systems consume the same CSS custom properties from the token layer
+· Visual regression tests compare legacy and new rendering for equivalence
+· No mixing of authoring paradigms per page (a page is either authored in legacy mode or new mode, even if it renders both component types)
+
+---
+
+7. Dual Authoring System
+
+Legacy Mode
+
+· Existing Layout Builder / Paragraphs
+· Restricted to old pages
+· No new AI features
+
+New Mode
+
+· Conversational UI + component-based composition
+· Full AI assistance
+· Default for all new content from Phase 2 onward
+
+Rule: No mixing authoring paradigms per page. A page is created in one mode and stays there until migrated.
+
+---
+
+8. Data Evolution
+
+Before After
+Inconsistent content types across sites Normalized schemas aligned with component props
+Duplicated, diverged fields Canonical field definitions in component registry
+Content coupled to presentation Structured content, components consume fields via mapping
+Legacy Paragraphs deep nesting Flat component composition with slots
+
+---
+
+9. Deployment During Migration
+
+· Legacy and new systems deployed together
+· Feature flags control rollout per site / per content type
+· Per-site activation: sites opt in to new authoring when ready
+· Canary deployment: new components tested on low-traffic pages first
+
+---
+
+10. Observability During Migration
+
+Track continuously:
+
+· Legacy vs. new component usage ratio
+· Component adoption rate per site
+· Migration errors and fallback rendering events
+· Visual regression diffs between legacy and new rendering
+· Editor switching rate (legacy → new mode)
+
+---
+
+11. Decommission Architecture
+
+Final state removes:
+
+· Compatibility layer (adapters, mappers, transformers)
+· Legacy components and themes
+· Old layout system (Legacy Layout Builder, Panels, Paragraphs in old style)
+· Dual-rendering pathways
+
+Result: clean target architecture with no migration artifacts.
+
+---
+
+12. End-State Architecture (Clean)
+
+```
+Experience UI (Conversational)
+        ↓
+   Agent Layer
+        ↓
+ Composition Engine
+        ↓
+ Component System (SDC)
+        ↓
+   Token System
+        ↓
+  Validation Layer
+        ↓
+ Drupal Core + Infrastructure
+```
+
+---
+
+13. Conversational Site Builder — Interaction Model
+
+The AI assistant lives inside the Drupal admin as a chat panel. Example interaction:
+
+```
+Editor: "I need a product launch page for our eco-friendly sneaker.
+        Hero with looping video, three testimonial cards,
+        a sustainability stats grid, and a newsletter sign-up.
+        Vibrant, earthy, slightly edgy."
+
+AI:     "Generated 3 layout options using only approved components
+        and the brand's 'Evergreen' token set. All pass WCAG AA,
+        mobile responsive, and security checks.
+
+        Option A: Full-bleed hero, horizontal testimonials
+        Option B: Split hero, stacked testimonials
+        Option C: Editorial hero with image-lead
+
+        Preview & refine →"
+
+Editor: "I like Option B, but swap testimonials to the left
+        and make the hero darker."
+
+AI:     "Updated. Hero background shifted to token value 'surface-dark'.
+        Testimonials moved to left column. All gates still passing.
+        Ready to preview."
+```
+
+The AI cannot output raw CSS, unapproved markup, or external dependencies. Every proposal is validated by the pre-flight pipeline before the editor sees it.
+
+---
+
+14. Token-Bounded Style Variation
+
+Editor says AI translates to Safe range
+"Make it more energetic" Increase primary hue by 10°, increase spacing by 0.1× hue ±15°, spacing ±0.25×
+"Make it more luxurious" Shift primary toward gold by 8°, increase letter-spacing by 5% hue ±20°, letter-spacing ±10%
+"Increase density" Reduce section spacing by 0.2×, reduce type scale by 0.1× spacing ≥ 0.6× base, type ≥ 0.9× base
+
+All adjustments are automatically contrast-checked and accessibility-validated before surfacing.
+
+---
+
+15. Quality Gates (Structural, Not Aspirational)
+
+Every publish triggers:
+
+1. WCAG AA — axe-core + Pa11y automated scan
+2. Contrast Ratio — all text/background combinations checked
+3. Core Web Vitals — Lighthouse CI performance budget
+4. Security — CSP header validation, OWASP ZAP scan, no unapproved third-party scripts
+5. Visual Regression — Chromatic/BackstopJS comparison against brand baseline
+6. Token Compliance — No raw values outside the design token system
+
+Failed gates block deployment. No override without platform-team approval.
+
+---
+
+16. Federated Governance Model
+
+Central DesignOps (10–15 people globally)
+
+· Owns: token foundation, component registry, CI/CD, security baseline, AI orchestration layer
+· Operates as an internal product team with public roadmap
+· Approves component RFCs and token additions
+
+Regional/Brand Platform Teams (3–5 per brand)
+
+· Own: token overlays, regional component variants, regional deployment pipelines
+· First-line support for site teams
+· Contribute components to central registry via RFC process
+
+Site Teams (1–3 per site)
+
+· Own: content, layout decisions within bounds, stakeholder relationships
+· Consume platform capabilities as self-service
+· No Drupal core or security responsibility
+
+Escalation Logic (Automated)
+
+· WCAG compliance < 90% → auto-flag to regional team
+· Critical security advisory unpatched > 7 days → auto-escalate to central team
+· Core Web Vitals failing > 14 days → auto-notify site team with fix suggestions
+
+---
+
+17. Component Evolution Loop
+
+```
+Editor intent not satisfiable
+        ↓
+AI logs component gap
+        ↓
+Quarterly backlog review
+        ↓
+DesignOps designs + validates new component
+        ↓
+Component published to registry
+        ↓
+Available to all sites + AI
+```
+
+This ensures the system continuously closes the gap between editor needs and platform capabilities.
+
+---
+
+18. Migration Anti-Patterns (Avoid)
+
+Anti-Pattern Why It Fails
+Big-bang rewrite Too much risk, too long before value, breaks existing sites
+Forced full-site migration Editor resistance, resource bottlenecks
+Mixing legacy + new logic in same component Unmaintainable, defeats token system
+Skipping token system Design drift persists, AI cannot operate reliably
+Building AI without component registry AI outputs unvalidated, insecure, inaccessible results
+
+---
+
+19. Key Architectural Rules
+
+1. The new system must work independently before the old system is removed.
+2. Components that fail security review never enter the registry.
+3. AI proposes; humans approve. No autonomous publishing without review.
+4. Every component ships with accessibility tests, visual regression snapshots, and token compliance verification.
+5. The design token system is the single source of stylistic truth — all CSS derives from it.
+
+---
+
+20. Technology Stack Summary
+
+Layer Key Technologies
+CMS Drupal 10/11, SDC, Experience Builder, JSON:API, GraphQL
+Design System Figma + Tokens Studio, Style Dictionary, Storybook 8, Chromatic
+AI Claude API / GPT-4o, Drupal AI module, custom MCP server for component vocabulary
+Quality axe-core, Pa11y, Lighthouse CI, OWASP ZAP, Backstop.js
+DevOps Kubernetes, ArgoCD/Flux, Terraform, GitHub Actions, Fastly/Cloudflare
+Security HashiCorp Vault, Snyk, ModSecurity/WAF, CSP headers
+Governance Custom React dashboard, PostHog/Amplitude, Matomo
+
+---
+
+21. Critical Success Factors
+
+Factor Description
+Design System as Product Tokens and components treated with engineering-grade rigor: semantic versioning, changelogs, automated compatibility checks.
+AI as Assistant, Not Autopilot AI generates proposals; humans approve. Value comes from reducing the cost of good decisions, not removing judgment.
+Federated Community Site teams are contributors, not consumers. RFC process, community calls, visible feedback loops.
+Incremental Migration Strangler fig pattern. New pages use new components; old pages migrate on next major update.
+Security by Default Components failing security review never enter registry. Retrofitting is 10× more expensive.
+Measure What Matters Track time-to-publish, a11y regression rate, component reuse, editor satisfaction — not lines of code.
+
+```
+
+---
+
+# 📄 implementationplan.md
+
+```markdown
+# Implementation Plan — Agentic Intent-to-Experience Platform
+
+> Drupal-based enterprise WebCM migration from legacy to AI-augmented, token-driven platform. 5-phase rollout over 30 months with parallel coexistence, gradual adoption, and zero big-bang risk.
+
+---
+
+## 0. Migration Philosophy
+
+- **No big-bang rewrite.** Systems coexist. Value is proven before legacy is decommissioned.
+- **Parallel systems, gradual adoption.** New authoring becomes available; editors switch when ready.
+- **Progress measured by component coverage, not site count.** A single page using new components is progress.
+- **New system proves value before replacing old.** AI-assisted pages ship faster with higher quality — adoption follows naturally.
+
+### Approach: Strangler Fig Pattern
+
+```
+
+Legacy Drupal → Hybrid → Component-driven → Fully Agentic
+
+```
+
+Incrementally replace:
+1. **Styles → Tokens** first (lowest risk, highest immediate value)
+2. **Components → SDC** second (builds the composable vocabulary)
+3. **Layouts → Patterns** third (enables AI composition)
+4. **Authoring → AI** last (depends on all prior layers)
+
+---
+
+## 1. Migration Strategy Overview
+
+### Key Principle
+
+> Migration succeeds when new content never uses legacy patterns again.
+
+### Governance Rule
+
+From Phase 2 onward: **all new pages must use SDC components and the token system.** Legacy authoring is locked for new content; it remains available only for editing existing pages.
+
+---
+
+## 2. Transition Phases (Full 30-Month Plan)
+
+---
+
+### Phase 0 — Discovery & Mapping
+**Months 0–2 | Foundation**
+
+#### Goals
+- Understand current landscape
+- Define migration scope and priorities
+- Identify quick wins
+
+#### Activities
+
+**Component Audit**
+- Inventory all Drupal themes, custom modules, and page templates across all sites
+- Identify duplicates, near-duplicates, and dead code
+- Select top 20 most-reused components for Phase 1 extraction
+
+**Content Model Mapping**
+- Map all content types across sites
+- Identify field inconsistencies, duplicates, and diverged definitions
+- Define target normalized schemas aligned with component props
+
+**Template Analysis**
+- Identify top 10 highest-traffic page templates
+- Document layout patterns (landing page, product page, campaign page, article)
+- These become the Phase 2 pattern migration priorities
+
+**Stakeholder Interviews**
+- Site editors: pain points, workflow friction, desired capabilities
+- Brand teams: design drift concerns, approval bottlenecks
+- Security: current posture, incident history, compliance requirements
+- Platform/DevOps: infrastructure heterogeneity, deployment pain
+
+#### Deliverables
+
+| Deliverable | Description |
+|-------------|-------------|
+| Component Inventory | Full catalog with usage frequency, duplication score, technical debt rating |
+| Content Model Map | All content types, fields, and interrelationships across sites |
+| Migration Priority Matrix | Components and templates ranked by impact × migration effort |
+| Stakeholder Report | Pain points, requirements, and success metrics by role |
+
+---
+
+### Phase 1 — System Foundation + Coexistence
+**Months 1–6 | Build the New, Keep the Old**
+
+#### Key Shift
+New system exists alongside legacy. Both render production pages.
+
+#### Activities
+
+**Design Token Architecture**
+- Establish three-tier token hierarchy: global → semantic → component
+- Define in Figma Tokens / Style Dictionary
+- Agree on naming conventions, brand sub-sets, regional override model
+- Automate Figma ↔ code sync
+- Map legacy styles to semantic tokens (the first bridge)
+
+**Component Extraction (Top 20 → SDC)**
+- Convert most-reused legacy Twig components to Drupal Single Directory Components (SDC)
+- Normalize props, remove inline styles, bind to tokens
+- Build Storybook stories with accessibility tests and visual regression snapshots
+- Establish CI/CD pipeline for component validation and publishing
+
+**Component Registry v1**
+- Machine-readable JSON schema per component: name, description, slots, allowed fields, style variants, a11y metadata, token bindings
+- Publish as API endpoint consumable by the AI layer
+
+**Compatibility Layer**
+- Build component adapters: legacy component → SDC field mappings
+- Content transformers: normalize inconsistent field structures
+- Layout interpreters (initial): detect legacy layouts, log for Phase 2 conversion
+
+**Dual Rendering Support**
+- Legacy pages continue rendering via existing theme
+- New pages available via SDC components + token-mapped CSS
+- Both systems share CSS custom properties from token layer — no visual drift
+
+**Quality Gate Infrastructure**
+- Deploy automated WCAG AA (axe-core + Pa11y), Core Web Vitals (Lighthouse CI), and OWASP ZAP scanning into deployment pipeline
+- Define pass/fail thresholds
+- Implement security headers, CSP policies, RBAC audit logging
+
+**AI Content Copilot (Limited)**
+- Integrate LLM into CKEditor for content generation, translation, summarization, and alt-text
+- Mandatory human review on all AI-generated content
+- No layout AI yet — content only
+
+**Governance Cockpit v1**
+- Central dashboard showing: component adoption rates, a11y scores, security posture per site
+
+#### Deliverables
+
+| Deliverable | Details |
+|-------------|---------|
+| Design Token System | Versioned, published, consumed by all Drupal themes. Figma ↔ code sync automated. |
+| SDC Library v1 | 20+ SDC components, Storybook stories, a11y + visual regression tested |
+| Component Registry v1 | JSON API of component schemas, machine-readable |
+| Compatibility Layer | Adapters, mappers, transformers for legacy ↔ new |
+| CI/CD Quality Gates | WCAG AA, performance, security gates blocking deployment on failure |
+| AI Content Copilot | Text, alt-text, SEO metadata in CKEditor |
+| Governance Dashboard v1 | Adoption, a11y, security visibility per site |
+| Security Baseline | CSP, RBAC, audit logs, automated patching pipeline |
+
+---
+
+### Phase 2 — Progressive Page Migration + AI Introduction
+**Months 6–14 | New Pages → New System**
+
+#### Key Shift
+All new pages use SDC components and tokens. Old pages remain on legacy but are gradually converted.
+
+#### Activities
+
+**New Content Rule Enforcement**
+- All new pages must use SDC components + token system
+- Legacy Layout Builder disabled for new page creation
+- Existing legacy pages remain editable in legacy mode
+
+**Pattern-Based Migration**
+- Convert top 10 highest-traffic templates into reusable page patterns
+- Patterns are serialized Layout Builder / Experience Builder configs
+- Patterns become few-shot examples for AI composition engine
+
+**Assisted Migration Tools**
+- Build scripts that detect legacy layouts and suggest equivalent new-system component patterns
+- Semi-automated conversion for high-volume pages
+- Manual migration workflow for edge cases
+
+**Component Library Expansion**
+- Expand SDC library from 20 → 50+ components
+- Prioritize components needed for top page patterns
+- All new components validated through CI quality gates
+
+**AI Composition Engine (Internal Beta)**
+- LLM prompted with component registry as system context
+- Generates Layout Builder configs from natural language descriptions
+- Internal testing only; editors see proposals but cannot publish AI layouts yet
+- Component gap logging begins: capture "I wanted X but couldn't" signals
+
+**Hybrid Rendering Maturation**
+- Pages can render legacy blocks alongside SDC components
+- Visual regression testing ensures no rendering differences
+- Track hybrid page ratio as migration progress metric
+
+**Editor Training**
+- Train early-adopter site teams on new component system
+- Document migration patterns and best practices
+- Establish feedback loop for editor experience improvements
+
+#### Deliverables
+
+| Deliverable | Details |
+|-------------|---------|
+| Pattern Library v1 | 10+ page patterns (landing, product, campaign, article, etc.) |
+| Migration Tooling | Layout detection, component suggestion, semi-automated conversion |
+| SDC Library v2 | 50+ components, documented, tested |
+| Hybrid Rendering | Stable coexistence of legacy + new components on same page |
+| AI Composition (Beta) | Internal LLM-driven layout generation, no public publishing yet |
+| Editor Training Program | Documentation, workshops, feedback channels |
+
+---
+
+### Phase 3 — Agentic Authoring Activation
+**Months 12–20 | AI Becomes Primary Authoring Model**
+
+#### Key Shift
+Conversational AI authoring becomes the default for new content. Editors describe intent; AI assembles.
+
+#### Activities
+
+**Enable Full Agent Pipeline**
+```
+
+Intent (natural language)
+→ Plan (AI selects components + patterns)
+→ Compose (AI assembles Layout Builder config)
+→ Validate (automated gates run)
+→ Preview (editor reviews)
+→ Publish
+
+```
+
+**AI Composition UI**
+- Conversational chat panel inside Drupal admin
+- AI returns 3–5 layout options using only approved components and brand tokens
+- One-click preview, refine via subsequent prompts ("swap hero style", "make it darker")
+
+**Token-Aware Style Variator**
+- Mood-based token adjustments within safe, tested intervals
+- "Make it more editorial" → adjusts spacing, typography, and color tokens
+- Every adjustment auto-validated for contrast and accessibility
+
+**Quality Pre-Flight Pipeline**
+- Every AI-generated layout passes through full validation before editor sees it
+- axe-core, Pa11y, CSP, contrast ratio, Core Web Vitals estimation
+- Failed layouts never shown to editors
+
+**Convert Patterns → AI Templates**
+- Existing page patterns become few-shot examples for the LLM
+- Patterns tagged by intent, audience, tone, and complexity
+- AI learns from editor refinements: accepted layouts reinforce the model
+
+**Editor Migration (Full Rollout)**
+- All editors trained on conversational authoring
+- Gradual transition: manual layout → AI-assisted → AI-first
+- Fallback: editors can still manually assemble from components if AI suggestions don't fit
+
+**Multi-Brand Tenant Model**
+- AI is brand-context-aware: uses the requesting site's token overlay
+- Regional token sets enforced; AI cannot cross-contaminate brands
+
+**Component Evolution Loop Operational**
+- Quarterly review of component gap logs
+- DesignOps designs, validates, and ships new components
+- Registry updated; AI immediately aware of new capabilities
+
+#### Deliverables
+
+| Deliverable | Details |
+|-------------|---------|
+| AI Composition UI | Conversational page builder inside Drupal, generating validated layouts |
+| Style Variant Engine | AI-driven mood-to-token mapping within safe bounds |
+| Quality Pre-Flight Pipeline | Full a11y + security + perf validation before editor preview |
+| AI Template Library | All patterns converted to few-shot AI examples |
+| Multi-Brand Tenancy | Per-brand token enforcement in AI composition |
+| Component Registry v3 | 100+ components, AI-discoverable metadata |
+| Evolution Feedback Loop | Gap logging → quarterly backlog → new components shipped |
+
+---
+
+### Phase 4 — Legacy Decommissioning
+**Months 18–30 | Old System Retired**
+
+#### Key Shift
+Legacy becomes read-only → removed. Platform operates entirely on new architecture.
+
+#### Activities
+
+**Remaining Page Migration**
+- Auto-convert remaining legacy pages where pattern matching is high-confidence
+- Manual migration for edge cases (highly customized, low-traffic pages)
+- Archive strategy: snapshot legacy pages; keep static fallback rendering if needed
+
+**Kill Switches**
+- Remove old themes from active sites
+- Deprecate and remove legacy components from codebase
+- Clean up unused content types and fields
+- Remove compatibility layer (adapters, mappers, transformers)
+
+**Self-Service Site Provisioning**
+- Authorized teams spin up new Drupal site via GitOps workflow in < 30 minutes
+- Site arrives pre-configured: correct brand token set, component library version, security baseline, quality gates, CI/CD pipeline
+- No central team involvement required for provisioning
+
+**Proactive Quality Intelligence**
+- AI monitors all live sites continuously
+- Flags regressions in accessibility, performance, or security
+- Auto-generates remediation PRs where possible
+- Governance cockpit becomes live health system, not periodic audit tool
+
+**AI-Driven A/B Testing**
+- Platform autonomously proposes layout experiments based on analytics signals
+- AI generates variant layouts (within design system bounds)
+- A/B tests them; surfaces winners for editor approval
+
+**Federated Governance Finalized**
+- Central platform team: token foundation, registry, CI/CD, security
+- Regional teams: token overlays, regional variants, first-line support
+- Site teams: full self-service within scope
+- RFC process for platform evolution: any team can propose changes; AI assists evaluation
+
+**Design System as Living Standard**
+- Formal RFC process for component additions, token changes, pattern updates
+- AI assists in evaluating proposals for consistency, accessibility, duplication
+- Approved changes ship to all sites automatically
+
+#### Deliverables
+
+| Deliverable | Details |
+|-------------|---------|
+| Self-Service Provisioning | New Drupal site live in < 30 min, fully configured |
+| Proactive Quality AI | Continuous monitoring with auto-remediation PRs |
+| AI A/B Testing | Autonomous layout experiments within design bounds |
+| Legacy Retirement | 90%+ component coverage, old themes and components removed |
+| Clean Architecture | Compatibility layer removed; only new system remains |
+| Federated Governance | Central + regional + site-level autonomy, clear boundaries |
+| Living Design Standard | RFC process, AI-assisted evaluation, global auto-deploy |
+
+---
+
+## 3. Migration Metrics
+
+Track continuously throughout all phases:
+
+| Metric | Phase 0 Baseline | Phase 2 Target | Phase 4 Target |
+|--------|-----------------|----------------|----------------|
+| % pages using new components | 0% | > 40% | > 90% |
+| % content types migrated | 0% | > 30% | > 80% |
+| Component reuse ratio | unknown | > 60% | > 85% |
+| Legacy code reduction | 0% | > 25% | > 85% |
+| Time to publish new campaign page | current baseline | 50% reduction | < 2 hours |
+| WCAG AA compliance | current baseline | 100% (new pages) | 100% (all pages) |
+| Editor satisfaction (NPS) | baseline survey | +20 points | +40 points |
+
+---
+
+## 4. Migration Risks & Mitigations
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| Legacy component complexity too high for extraction | High | Start with top 20 simplest components; build extraction patterns before tackling complex ones |
+| Editor resistance to new authoring model | High | Gradual onboarding; keep legacy available for existing pages; prove time savings on new pages first |
+| Inconsistent content models block normalization | Medium | Content transformers and adapters; accept some manual mapping for edge cases |
+| Hybrid rendering creates visual drift | Medium | Shared token layer; automated visual regression testing; unified CSS custom properties |
+| AI generates sub-optimal layouts | Medium | Human-in-the-loop; AI proposes, editors approve; feedback loop improves model |
+| Security gaps during coexistence | High | Both systems pass through same CI/CD quality gates; no relaxation for legacy |
+| Migration takes longer than planned | Medium | Phased rollout; value delivered incrementally; no big-bang dependency |
+
+---
+
+## 5. Critical Success Rule
+
+> **Migration succeeds when new content never uses legacy patterns again.**
+
+Once this rule holds for 3 consecutive months across all sites, legacy decommissioning can begin.
+
+---
+
+## 6. Phase Summary Table
+
+| Phase | Months | Focus | Key Metric |
+|-------|--------|-------|------------|
+| **0 — Discovery** | 0–2 | Audit, map, prioritize | Component inventory complete |
+| **1 — Foundation + Coexistence** | 1–6 | Tokens, SDC, compatibility layer, quality gates | 20+ SDC components in production, token system live |
+| **2 — Progressive Migration + AI Intro** | 6–14 | New pages on new system, pattern library, AI beta | > 40% new pages use SDC, 10+ patterns |
+| **3 — Agentic Activation** | 12–20 | Conversational AI primary authoring, style variants | > 70% editors use AI composition |
+| **4 — Legacy Decommissioning** | 18–30 | Legacy removal, self-service, proactive quality | > 90% component coverage, legacy retired |
+
+---
+
+## 7. First 90 Days — Concrete Actions
+
+### Month 1
+- Begin component audit (all sites)
+- Begin content model mapping
+- Set up Style Dictionary + Figma Tokens integration
+- Select top 20 components for extraction
+
+### Month 2
+- Complete component audit and content model map
+- Publish migration priority matrix
+- Begin first 5 SDC component extractions
+- Set up CI/CD quality gate pipeline (a11y, perf, security)
+
+### Month 3
+- First SDC components in staging environment
+- Token system v0.1 publishing to Drupal theme
+- Compatibility layer prototype for top component
+- Governance cockpit v0.1 with first site data
+- AI content copilot integration in CKEditor (text only)
+
+### End of Month 3 Checkpoint
+- [ ] Token system publishing to at least one Drupal theme
+- [ ] 5+ SDC components with Storybook stories
+- [ ] Quality gates running in CI (not yet blocking)
+- [ ] Component inventory visible in governance dashboard
+- [ ] Phase 1 full plan refined based on discovery findings
+```
+
+---
+
+Both files now contain the complete concept. The architecture document describes the system design — layers, AI interaction model, compatibility layer, hybrid rendering, and end-state — while the implementation plan provides the phased, migration-aware rollout with concrete deliverables, metrics, risks, and a first-90-days action plan. The migration extension you provided is fully integrated, closing the greenfield gap and making this executable in a real enterprise Drupal environment.
