@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise WebCM · AI-Augmented Design System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+–ink: #0a0a0f;
+–paper: #f5f3ee;
+–accent: #e8440a;
+–accent2: #1a4fff;
+–muted: #7a7870;
+–grid: #e2ded8;
+–phase1: #e8440a;
+–phase2: #1a4fff;
+–phase3: #00a86b;
+–card-bg: #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: ‘DM Mono’, monospace;
+background: var(–paper);
+color: var(–ink);
+font-size: 14px;
+line-height: 1.7;
+overflow-x: hidden;
+}
+
+/* ── HERO ─────────────────────────────────────────── */
+.hero {
+min-height: 100vh;
+display: grid;
+grid-template-rows: auto 1fr auto;
+padding: 2.5rem 3rem;
+position: relative;
+overflow: hidden;
+border-bottom: 1.5px solid var(–ink);
+}
+
+.hero::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background:
+repeating-linear-gradient(0deg, transparent, transparent 59px, var(–grid) 59px, var(–grid) 60px),
+repeating-linear-gradient(90deg, transparent, transparent 59px, var(–grid) 59px, var(–grid) 60px);
+opacity: 0.45;
+pointer-events: none;
+}
+
+.hero-nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: relative;
+z-index: 2;
+}
+
+.logo {
+font-family: ‘Syne’, sans-serif;
+font-weight: 800;
+font-size: 0.85rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+}
+
+.tag-row {
+display: flex;
+gap: 0.5rem;
+}
+
+.tag {
+font-size: 0.68rem;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+border: 1px solid var(–ink);
+padding: 0.2rem 0.6rem;
+border-radius: 99px;
+}
+
+.hero-body {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+position: relative;
+z-index: 2;
+padding: 4rem 0 2rem;
+}
+
+.eyebrow {
+font-size: 0.72rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–accent);
+margin-bottom: 1.5rem;
+font-weight: 500;
+}
+
+h1 {
+font-family: ‘Instrument Serif’, serif;
+font-size: clamp(3.5rem, 7vw, 7.5rem);
+line-height: 1.0;
+letter-spacing: -0.02em;
+max-width: 14ch;
+margin-bottom: 2rem;
+}
+
+h1 em {
+font-style: italic;
+color: var(–accent);
+}
+
+.hero-desc {
+max-width: 52ch;
+color: var(–muted);
+line-height: 1.8;
+font-size: 0.9rem;
+margin-bottom: 3rem;
+}
+
+.hero-metrics {
+display: flex;
+gap: 3rem;
+padding-top: 2rem;
+border-top: 1px solid var(–grid);
+width: 100%;
+}
+
+.metric-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.metric-number {
+font-family: ‘Syne’, sans-serif;
+font-size: 2.2rem;
+font-weight: 800;
+line-height: 1;
+}
+.metric-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(–muted); }
+
+.hero-footer {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+position: relative;
+z-index: 2;
+font-size: 0.7rem;
+color: var(–muted);
+letter-spacing: 0.08em;
+}
+
+.big-label {
+font-family: ‘Syne’, sans-serif;
+font-weight: 800;
+font-size: clamp(4rem, 10vw, 12rem);
+color: transparent;
+-webkit-text-stroke: 1.5px var(–grid);
+letter-spacing: -0.04em;
+line-height: 1;
+user-select: none;
+}
+
+/* ── SECTIONS ──────────────────────────────────────── */
+section {
+padding: 5rem 3rem;
+border-bottom: 1.5px solid var(–ink);
+}
+
+.section-header {
+display: grid;
+grid-template-columns: auto 1fr;
+gap: 1.5rem;
+align-items: start;
+margin-bottom: 3.5rem;
+}
+
+.section-number {
+font-family: ‘Syne’, sans-serif;
+font-size: 0.72rem;
+font-weight: 700;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–accent);
+padding-top: 0.3rem;
+}
+
+h2 {
+font-family: ‘Instrument Serif’, serif;
+font-size: clamp(2rem, 4vw, 3.8rem);
+line-height: 1.1;
+letter-spacing: -0.02em;
+font-weight: 400;
+}
+
+h2 em { font-style: italic; color: var(–accent); }
+
+h3 {
+font-family: ‘Syne’, sans-serif;
+font-weight: 700;
+font-size: 0.8rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+margin-bottom: 0.75rem;
+}
+
+p { color: var(–muted); line-height: 1.9; margin-bottom: 1rem; font-size: 0.88rem; }
+p strong { color: var(–ink); font-weight: 500; }
+
+/* ── ARCHITECTURE DIAGRAM ──────────────────────────── */
+.arch-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1.5px;
+background: var(–ink);
+border: 1.5px solid var(–ink);
+margin-bottom: 3rem;
+}
+
+.arch-cell {
+background: var(–paper);
+padding: 2rem 1.75rem;
+position: relative;
+}
+
+.arch-cell.highlight { background: var(–ink); color: var(–paper); }
+.arch-cell.highlight h3 { color: var(–paper); }
+.arch-cell.highlight p { color: rgba(245,243,238,0.6); }
+.arch-cell.accent-cell { background: var(–accent); color: white; }
+.arch-cell.accent-cell h3 { color: white; }
+.arch-cell.accent-cell p { color: rgba(255,255,255,0.75); }
+
+.arch-icon {
+font-size: 1.8rem;
+margin-bottom: 0.75rem;
+display: block;
+}
+
+/* ── LAYER STACK ───────────────────────────────────── */
+.layer-stack { display: flex; flex-direction: column; gap: 1.5px; margin-bottom: 3rem; }
+
+.layer {
+display: grid;
+grid-template-columns: 200px 1fr;
+gap: 0;
+border: 1.5px solid var(–ink);
+border-bottom: none;
+}
+.layer:last-child { border-bottom: 1.5px solid var(–ink); }
+
+.layer-label {
+padding: 1.25rem 1.5rem;
+border-right: 1.5px solid var(–ink);
+display: flex;
+align-items: center;
+font-family: ‘Syne’, sans-serif;
+font-weight: 700;
+font-size: 0.7rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+background: var(–ink);
+color: var(–paper);
+}
+
+.layer-label.l1 { background: var(–phase3); }
+.layer-label.l2 { background: var(–phase2); }
+.layer-label.l3 { background: var(–accent); }
+.layer-label.l4 { background: #6e4cff; }
+.layer-label.l5 { background: var(–ink); }
+
+.layer-content {
+padding: 1.25rem 1.75rem;
+display: flex;
+align-items: center;
+gap: 3rem;
+flex-wrap: wrap;
+background: white;
+}
+
+.layer-item { font-size: 0.8rem; color: var(–muted); }
+.layer-item strong { color: var(–ink); display: block; font-size: 0.75rem; }
+
+/* ── PHASE CARDS ───────────────────────────────────── */
+.phases { display: flex; flex-direction: column; gap: 0; }
+
+.phase-card {
+border: 1.5px solid var(–ink);
+border-bottom: none;
+display: grid;
+grid-template-columns: 80px 1fr;
+overflow: hidden;
+}
+
+.phase-card:last-child { border-bottom: 1.5px solid var(–ink); }
+
+.phase-sidebar {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+padding: 2rem 1rem;
+gap: 1rem;
+border-right: 1.5px solid var(–ink);
+background: var(–paper);
+}
+
+.phase-num {
+font-family: ‘Syne’, sans-serif;
+font-size: 3rem;
+font-weight: 800;
+line-height: 1;
+writing-mode: vertical-rl;
+text-orientation: mixed;
+transform: rotate(180deg);
+}
+
+.phase-num.p1 { color: var(–phase1); }
+.phase-num.p2 { color: var(–phase2); }
+.phase-num.p3 { color: var(–phase3); }
+
+.phase-body { padding: 2.5rem 2.5rem; }
+
+.phase-meta {
+display: flex;
+gap: 1rem;
+margin-bottom: 1.5rem;
+flex-wrap: wrap;
+}
+
+.badge {
+font-size: 0.68rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+border: 1px solid currentColor;
+padding: 0.2rem 0.65rem;
+border-radius: 99px;
+font-weight: 500;
+}
+
+.badge.p1 { color: var(–phase1); }
+.badge.p2 { color: var(–phase2); }
+.badge.p3 { color: var(–phase3); }
+.badge.dark { color: var(–ink); }
+
+.phase-title {
+font-family: ‘Instrument Serif’, serif;
+font-size: 2rem;
+line-height: 1.2;
+margin-bottom: 1rem;
+font-weight: 400;
+}
+
+.deliverables {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 1px;
+background: var(–grid);
+margin-top: 2rem;
+border: 1px solid var(–grid);
+}
+
+.deliverable {
+background: white;
+padding: 1.25rem 1.25rem;
+}
+
+.deliverable-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 0.72rem;
+font-weight: 700;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+margin-bottom: 0.4rem;
+}
+
+.deliverable p { font-size: 0.8rem; margin-bottom: 0; }
+
+/* ── AI SYSTEM ─────────────────────────────────────── */
+.ai-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2rem;
+margin-bottom: 3rem;
+}
+
+.ai-card {
+border: 1.5px solid var(–ink);
+padding: 2rem;
+position: relative;
+background: white;
+}
+
+.ai-card::before {
+content: attr(data-num);
+position: absolute;
+top: 1.25rem;
+right: 1.25rem;
+font-family: ‘Syne’, sans-serif;
+font-size: 0.65rem;
+font-weight: 700;
+letter-spacing: 0.15em;
+color: var(–grid);
+}
+
+.ai-card h3 { color: var(–accent); }
+
+/* ── END STATE ─────────────────────────────────────── */
+.flow-diagram {
+display: flex;
+align-items: stretch;
+gap: 0;
+margin: 2.5rem 0;
+flex-wrap: wrap;
+}
+
+.flow-node {
+flex: 1;
+min-width: 160px;
+border: 1.5px solid var(–ink);
+padding: 1.75rem 1.25rem;
+text-align: center;
+position: relative;
+background: white;
+}
+
+.flow-node:not(:last-child) {
+border-right: none;
+}
+
+.flow-node::after {
+content: ‘→’;
+position: absolute;
+right: -0.6rem;
+top: 50%;
+transform: translateY(-50%);
+font-size: 0.9rem;
+color: var(–muted);
+z-index: 2;
+background: white;
+padding: 0 0.1rem;
+}
+.flow-node:last-child::after { display: none; }
+
+.flow-node.dark { background: var(–ink); color: var(–paper); }
+.flow-node.dark h3 { color: var(–paper); }
+
+.flow-emoji { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
+.flow-node h3 { font-size: 0.7rem; }
+.flow-node p { font-size: 0.72rem; margin-bottom: 0; }
+.flow-node.dark p { color: rgba(245,243,238,0.55); }
+
+/* ── GOVERNANCE TABLE ──────────────────────────────── */
+.gov-table {
+width: 100%;
+border-collapse: collapse;
+border: 1.5px solid var(–ink);
+font-size: 0.82rem;
+}
+
+.gov-table th {
+background: var(–ink);
+color: var(–paper);
+padding: 0.85rem 1.25rem;
+text-align: left;
+font-family: ‘Syne’, sans-serif;
+font-size: 0.68rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+font-weight: 700;
+}
+
+.gov-table td {
+padding: 0.85rem 1.25rem;
+border-bottom: 1px solid var(–grid);
+color: var(–muted);
+vertical-align: top;
+}
+
+.gov-table td:first-child {
+font-weight: 500;
+color: var(–ink);
+white-space: nowrap;
+}
+
+.gov-table tr:last-child td { border-bottom: none; }
+
+.gov-table tr:nth-child(even) td { background: #fafaf8; }
+
+/* ── KPI STRIP ─────────────────────────────────────── */
+.kpi-strip {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 0;
+border: 1.5px solid var(–ink);
+margin-bottom: 3rem;
+}
+
+.kpi-cell {
+padding: 1.75rem 1.5rem;
+border-right: 1.5px solid var(–ink);
+background: white;
+}
+
+.kpi-cell:last-child { border-right: none; }
+.kpi-cell:first-child { background: var(–accent); }
+.kpi-cell:first-child .kpi-val, .kpi-cell:first-child .kpi-lab { color: white; }
+.kpi-cell:first-child .kpi-desc { color: rgba(255,255,255,0.7); }
+
+.kpi-val {
+font-family: ‘Syne’, sans-serif;
+font-size: 2.4rem;
+font-weight: 800;
+line-height: 1;
+margin-bottom: 0.2rem;
+}
+
+.kpi-lab {
+font-size: 0.68rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+font-weight: 500;
+margin-bottom: 0.3rem;
+}
+
+.kpi-desc { font-size: 0.75rem; color: var(–muted); }
+
+/* ── TECHNOLOGY STACK ──────────────────────────────── */
+.tech-clusters {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1.5px;
+background: var(–ink);
+border: 1.5px solid var(–ink);
+}
+
+.tech-cluster { background: var(–paper); padding: 2rem; }
+
+.tech-cluster h3 { color: var(–accent2); margin-bottom: 1rem; }
+
+.tech-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 0.4rem;
+}
+
+.tech-list li {
+font-size: 0.8rem;
+color: var(–muted);
+padding-left: 1rem;
+position: relative;
+}
+
+.tech-list li::before {
+content: ‘·’;
+position: absolute;
+left: 0;
+color: var(–accent);
+font-weight: 700;
+}
+
+.tech-list li strong { color: var(–ink); font-weight: 500; }
+
+/* ── CALLOUT ───────────────────────────────────────── */
+.callout {
+background: var(–ink);
+color: var(–paper);
+padding: 3rem;
+margin: 3rem 0;
+position: relative;
+overflow: hidden;
+}
+
+.callout::before {
+content: ‘”’;
+position: absolute;
+right: 2rem;
+top: -1rem;
+font-family: ‘Instrument Serif’, serif;
+font-size: 12rem;
+color: rgba(255,255,255,0.04);
+line-height: 1;
+pointer-events: none;
+}
+
+.callout p {
+color: rgba(245,243,238,0.85);
+font-family: ‘Instrument Serif’, serif;
+font-size: 1.4rem;
+font-style: italic;
+line-height: 1.5;
+max-width: 70ch;
+margin: 0;
+}
+
+.callout cite {
+display: block;
+margin-top: 1rem;
+font-family: ‘DM Mono’, monospace;
+font-style: normal;
+font-size: 0.72rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(–accent);
+}
+
+/* ── FOOTER ────────────────────────────────────────── */
+footer {
+padding: 2.5rem 3rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 0.72rem;
+color: var(–muted);
+letter-spacing: 0.08em;
+}
+
+/* ── PRINT / RESPONSIVE ────────────────────────────── */
+@media (max-width: 900px) {
+.hero, section { padding: 3rem 1.5rem; }
+.arch-grid { grid-template-columns: 1fr; }
+.ai-grid { grid-template-columns: 1fr; }
+.tech-clusters { grid-template-columns: 1fr; }
+.kpi-strip { grid-template-columns: repeat(2, 1fr); }
+.flow-diagram { flex-direction: column; }
+.flow-node:not(:last-child) { border-right: 1.5px solid var(–ink); border-bottom: none; }
+.flow-node::after { content: ‘↓’; right: auto; bottom: -0.7rem; left: 50%; transform: translateX(-50%); top: auto; }
+.layer { grid-template-columns: 1fr; }
+.layer-label { border-right: none; border-bottom: 1.5px solid var(–ink); writing-mode: horizontal-tb; }
+.gov-table { font-size: 0.74rem; }
+.hero-metrics { gap: 1.5rem; flex-wrap: wrap; }
+.phase-card { grid-template-columns: 60px 1fr; }
+.phase-num { font-size: 2rem; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+
+<header class="hero">
+  <nav class="hero-nav">
+    <span class="logo">Enterprise WebCM Concept</span>
+    <div class="tag-row">
+      <span class="tag">Drupal</span>
+      <span class="tag">AI-Augmented</span>
+      <span class="tag">Design System</span>
+      <span class="tag">2025+</span>
+    </div>
+  </nav>
+
+  <div class="hero-body">
+    <p class="eyebrow">Strategic Architecture Blueprint</p>
+    <h1>The <em>Intelligent</em> Enterprise Web Platform</h1>
+    <p class="hero-desc">
+      A blueprint for evolving a global Drupal-based WebCM into an AI-augmented, 
+      design-system-first platform — where quality, accessibility, and security are 
+      structurally enforced, not manually reviewed, and where AI enables previously 
+      impossible levels of design creativity at enterprise scale.
+    </p>
+
+```
+<div class="hero-metrics">
+  <div class="metric-item">
+    <span class="metric-number" style="color:var(--accent)">3</span>
+    <span class="metric-label">Transition Phases</span>
+  </div>
+  <div class="metric-item">
+    <span class="metric-number" style="color:var(--accent2)">5</span>
+    <span class="metric-label">Core Layers</span>
+  </div>
+  <div class="metric-item">
+    <span class="metric-number" style="color:var(--phase3)">∞</span>
+    <span class="metric-label">Site Variations</span>
+  </div>
+  <div class="metric-item">
+    <span class="metric-number">1</span>
+    <span class="metric-label">Design Truth</span>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="hero-footer">
+    <span>Concept · Architecture · Transition Plan</span>
+    <span class="big-label">WEBCM</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════ VISION ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2>The <em>Core Vision</em> & Problem Statement</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;">
+    <div>
+      <h3>The Enterprise Paradox Today</h3>
+      <p>Global enterprises running Drupal face a structural contradiction: <strong>centrally managed design systems</strong> provide consistency but throttle creativity. Local site owners need flexibility to differentiate, but unbounded freedom destroys brand cohesion and creates accessibility, security, and maintenance debt.</p>
+      <p>Meanwhile, AI design tools are generating <strong>extraordinary visual output</strong> but exist outside the governed CMS environment — resulting in disconnected one-offs that bypass design system rules.</p>
+      <p>The answer is not choosing between control and freedom. It is <strong>redesigning the constraint surface</strong> so that AI-powered creativity operates within structurally enforced quality gates.</p>
+    </div>
+    <div>
+      <h3>The Target State in One Sentence</h3>
+      <p style="font-family:'Instrument Serif',serif;font-size:1.15rem;color:var(--ink);line-height:1.6;font-style:italic;">An AI-augmented, token-driven, component-first Drupal platform where any authorized editor can compose beautiful, WCAG AA–compliant, brand-coherent websites — and where the system structurally prevents the creation of anything insecure, inaccessible, or off-brand.</p>
+
+```
+  <h3 style="margin-top:2rem;">Three Structural Guarantees</h3>
+  <p><strong>Quality by Construction:</strong> Components are pre-built, pre-tested, and pre-validated. Editors assemble — they do not build from scratch.</p>
+  <p><strong>AI as a Constrained Composer:</strong> AI generates, selects, and arranges from the design system's vocabulary. It does not escape it.</p>
+  <p><strong>Governance Without Bureaucracy:</strong> Rules are code, not committees. Approval workflows trigger only for exceptions outside the system's validated envelope.</p>
+</div>
+```
+
+  </div>
+
+  <div class="callout">
+    <p>The design system is not a style guide PDF. It is a living, versioned, machine-readable contract between designers, developers, content authors, and AI — enforced at build time, deploy time, and render time.</p>
+    <cite>— Core Architectural Principle</cite>
+  </div>
+</section>
+
+<!-- ══════════════════════════ ARCHITECTURE ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2>The Five-Layer <em>Architecture</em></h2>
+  </div>
+
+  <div class="layer-stack">
+    <div class="layer">
+      <div class="layer-label l1">Layer 5<br/>Experience</div>
+      <div class="layer-content">
+        <div class="layer-item"><strong>Site Composer UI</strong>AI-assisted page building, layout suggestions</div>
+        <div class="layer-item"><strong>Content Authoring</strong>Decoupled editor, structured fields, preview</div>
+        <div class="layer-item"><strong>AI Design Prompt</strong>Natural language → validated layout proposals</div>
+        <div class="layer-item"><strong>Analytics Integration</strong>Content performance, A/B test hooks</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-label l2">Layer 4<br/>AI Layer</div>
+      <div class="layer-content">
+        <div class="layer-item"><strong>Design Generator</strong>LLM generates layouts using token vocabulary only</div>
+        <div class="layer-item"><strong>Content Assist</strong>Copy tone, metadata, SEO, alt-text generation</div>
+        <div class="layer-item"><strong>Quality Checker</strong>Automated a11y, contrast, SEO, security scanning</div>
+        <div class="layer-item"><strong>Component Recommender</strong>Context-aware component selection suggestions</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-label l3">Layer 3<br/>Component</div>
+      <div class="layer-content">
+        <div class="layer-item"><strong>Component Library</strong>Storybook-documented, Drupal SDC components</div>
+        <div class="layer-item"><strong>Layout System</strong>Grid-based, responsive, token-constrained</div>
+        <div class="layer-item"><strong>Pattern Library</strong>Page archetypes, content patterns, flows</div>
+        <div class="layer-item"><strong>Variant Engine</strong>Theme overrides within token bounds</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-label l4">Layer 2<br/>Design Tokens</div>
+      <div class="layer-content">
+        <div class="layer-item"><strong>Global Tokens</strong>Brand colors, typography scale, spacing, radii</div>
+        <div class="layer-item"><strong>Semantic Tokens</strong>color-action-primary, space-section-gap etc.</div>
+        <div class="layer-item"><strong>Component Tokens</strong>Per-component overrideable values</div>
+        <div class="layer-item"><strong>Multi-Brand</strong>Token sets per brand/sub-brand, validated palette</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-label l5">Layer 1<br/>Foundation</div>
+      <div class="layer-content">
+        <div class="layer-item"><strong>Drupal Core</strong>Headless/hybrid, structured content, permissions</div>
+        <div class="layer-item"><strong>Security Baseline</strong>CSP, automated pen-test CI, RBAC, audit logs</div>
+        <div class="layer-item"><strong>Infrastructure</strong>Multi-region, CDN, containerized deployments</div>
+        <div class="layer-item"><strong>API Contract</strong>GraphQL/JSON:API, versioned, schema-validated</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1rem;">Core Platform Modules</h3>
+  <div class="arch-grid">
+    <div class="arch-cell highlight">
+      <span class="arch-icon">⬡</span>
+      <h3>Design Token Engine</h3>
+      <p>Single source of truth in Figma Tokens → JSON → CSS custom properties → Drupal theme. Changes propagate to all sites simultaneously.</p>
+    </div>
+    <div class="arch-cell">
+      <span class="arch-icon">◈</span>
+      <h3>Single Directory Components</h3>
+      <p>Drupal SDC (Single Directory Components) with auto-generated Storybook stories. Every component ships with a11y tests, visual regression, and security review.</p>
+    </div>
+    <div class="arch-cell">
+      <span class="arch-icon">◎</span>
+      <h3>AI Composition Engine</h3>
+      <p>LLM-powered layout assistant that speaks only the component/token vocabulary. Cannot output anything outside the validated design envelope.</p>
+    </div>
+    <div class="arch-cell">
+      <span class="arch-icon">⊕</span>
+      <h3>Continuous Quality Gate</h3>
+      <p>Every publish triggers automated WCAG AA, contrast ratio, Core Web Vitals, and OWASP security scanning. Failed gates block deployment without override.</p>
+    </div>
+    <div class="arch-cell accent-cell">
+      <span class="arch-icon">⚡</span>
+      <h3>Global Distribution Network</h3>
+      <p>Multi-region Drupal instances sharing one component registry. Local data, shared design system. Each site team is a tenant with scoped permissions.</p>
+    </div>
+    <div class="arch-cell">
+      <span class="arch-icon">◷</span>
+      <h3>Governance Cockpit</h3>
+      <p>Central dashboard showing adoption rates, token overrides, accessibility scores, security posture, and component usage across all sites globally.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ AI DESIGN ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2>AI-Powered Design <em>at Enterprise Scale</em></h2>
+  </div>
+
+  <p style="max-width:70ch;margin-bottom:2.5rem;">The AI layer is not a free-form design generator. It is a <strong>constrained intelligence</strong> that knows the full vocabulary of the design system and composes within it — enabling unprecedented speed and creativity without sacrificing governance.</p>
+
+  <div class="ai-grid">
+    <div class="ai-card" data-num="01">
+      <h3>AI Design Prompter</h3>
+      <p>Site owners describe their page intent in natural language: <em>"A product landing page for a B2B SaaS tool aimed at enterprise security teams, authoritative but approachable."</em></p>
+      <p>The AI returns <strong>3–5 layout proposals</strong>, each using only approved components, tokens, and patterns from the design system. Editors choose, customize within bounds, and publish.</p>
+    </div>
+    <div class="ai-card" data-num="02">
+      <h3>Token-Aware Style Variance</h3>
+      <p>AI can propose <strong>expressive visual variants</strong> — a dark hero section, an editorial image-lead layout, a data-heavy dashboard — all derived from the same token set. The brand is consistent; the expression is flexible.</p>
+      <p>Each variant is validated against contrast ratios and component constraints before being offered to the editor.</p>
+    </div>
+    <div class="ai-card" data-num="03">
+      <h3>Content Intelligence</h3>
+      <p>AI auto-generates <strong>alt text, meta descriptions, structured data markup, and content summaries</strong> from page content. Tone-of-voice rules are encoded as system prompts per brand.</p>
+      <p>Readability scores, inclusive language checks, and SEO signals are surfaced in the authoring UI, not in a post-hoc audit.</p>
+    </div>
+    <div class="ai-card" data-num="04">
+      <h3>Component Evolution Loop</h3>
+      <p>AI monitors usage patterns and performance data across all sites. It surfaces <strong>proposals for new component variants</strong> based on what editors are trying to build outside the system.</p>
+      <p>The design system team reviews proposals, builds and validates them, and ships them to the registry — closing the creativity gap systematically.</p>
+    </div>
+    <div class="ai-card" data-num="05">
+      <h3>Automated Accessibility Audit</h3>
+      <p>Every AI-generated layout is run through <strong>axe-core, Pa11y, and a custom WCAG AA checker</strong> before being presented to editors. Layouts with violations are either auto-corrected or marked with mandatory fixes.</p>
+      <p>Editors cannot accidentally ship inaccessible pages; the system catches violations before they reach production.</p>
+    </div>
+    <div class="ai-card" data-num="06">
+      <h3>Security Intelligence</h3>
+      <p>AI-generated layouts are scanned for <strong>CSP violations, XSS surface areas, and insecure third-party embeds</strong>. Permitted external resources are whitelisted at the platform level; AI cannot introduce unapproved dependencies.</p>
+      <p>Dependency graphs are auto-updated and security advisories trigger automated component patches across all sites.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ PHASES ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2>The Three-Phase <em>Transition Plan</em></h2>
+  </div>
+
+  <div class="phases">
+
+```
+<!-- PHASE 1 -->
+<div class="phase-card">
+  <div class="phase-sidebar">
+    <span class="phase-num p1">01</span>
+  </div>
+  <div class="phase-body">
+    <div class="phase-meta">
+      <span class="badge p1">Months 1–9</span>
+      <span class="badge dark">Foundation</span>
+      <span class="badge dark">Consolidate</span>
+    </div>
+    <div class="phase-title">Audit, Unify & Build the Design Foundation</div>
+    <p><strong>The goal of Phase 1</strong> is to stop the bleeding: eliminate design drift, establish the canonical token system, migrate the existing Drupal component landscape to SDC, and put automated quality gates in place. No site owner-facing AI features yet — this phase builds the infrastructure they depend on.</p>
+
+    <h3 style="margin-top:1.5rem;">Key Activities</h3>
+    <p><strong>Global Component Audit:</strong> Inventory all existing Drupal themes, custom modules, and page templates across all sites. Identify duplicates, near-duplicates, and dead code. Define the target component set (~40–80 core components for most enterprises).</p>
+    <p><strong>Design Token Architecture:</strong> Establish the three-tier token hierarchy (global → semantic → component) in Figma Tokens / Style Dictionary. Agree on naming conventions, brand sub-sets, and the override model for regional/brand sites.</p>
+    <p><strong>SDC Migration:</strong> Rebuild top-50 components as Drupal SDC components with Storybook stories, unit tests, axe-core accessibility tests, and visual regression snapshots. Establish the CI/CD pipeline for component validation and publishing.</p>
+    <p><strong>Quality Gate Infrastructure:</strong> Deploy automated WCAG AA, performance (Core Web Vitals), and OWASP scanning into the Drupal deployment pipeline. Define pass/fail thresholds. Implement security headers, CSP policies, and RBAC audit logging across all instances.</p>
+
+    <div class="deliverables">
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase1)">Design Token System</div>
+        <p>Versioned, published, consumed by all Drupal themes. Figma ↔ code sync automated.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase1)">Component Registry v1</div>
+        <p>50+ SDC components, documented in Storybook, with a11y & visual regression tests.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase1)">CI Quality Gates</div>
+        <p>Accessibility, security, performance gates blocking deployment on failure.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase1)">Governance Dashboard v1</div>
+        <p>Central visibility into component adoption, a11y scores, security posture per site.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase1)">Migration Runbook</div>
+        <p>Documented process for onboarding existing sites to the new component system.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase1)">Security Baseline</div>
+        <p>CSP, RBAC, audit logs, automated patching pipeline across all Drupal instances.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="phase-card">
+  <div class="phase-sidebar">
+    <span class="phase-num p2">02</span>
+  </div>
+  <div class="phase-body">
+    <div class="phase-meta">
+      <span class="badge p2">Months 10–18</span>
+      <span class="badge dark">AI Integration</span>
+      <span class="badge dark">Empower Editors</span>
+    </div>
+    <div class="phase-title">Activate the AI Layer & Empower Site Teams</div>
+    <p><strong>The goal of Phase 2</strong> is to radically reduce the effort required to build high-quality pages. Introduce AI composition tooling, connected directly to the component registry and token system built in Phase 1. Site owners gain powerful new creation capabilities while operating within the validated envelope.</p>
+
+    <h3 style="margin-top:1.5rem;">Key Activities</h3>
+    <p><strong>AI Composition Engine:</strong> Build or integrate an LLM-powered page composition assistant inside the Drupal authoring UI. The model is fine-tuned or prompted with the full component/token vocabulary. It generates layout proposals that map directly to Drupal Layout Builder or Experience Builder configurations — no custom code required from editors.</p>
+    <p><strong>Visual Variant System:</strong> Extend the token system with an AI-navigable "style dimension" model — editors can say "make this more editorial" or "increase density" and the AI adjusts layout, spacing, and typographic tokens within approved bounds. Every variant is automatically tested before display.</p>
+    <p><strong>Content Intelligence Tools:</strong> Ship AI-powered SEO analysis, alt-text generation, structured data markup, content readability scoring, and inclusive language checking natively in the Drupal editor. Integrate with existing DAM and translation systems.</p>
+    <p><strong>Multi-Brand Tenant Model:</strong> Implement the per-brand token override system. Each brand/region site team gets their token set (colors, typography, motion preferences) within a validated palette. The AI is brand-aware — it will only propose layouts using the requesting site's token set.</p>
+    <p><strong>Component Evolution Loop:</strong> Instrument the editor UI to capture "I wanted to do X but couldn't" signals. Feed this data into a quarterly component backlog. Close the loop between editor needs and platform capabilities systematically.</p>
+
+    <div class="deliverables">
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase2)">AI Composition UI</div>
+        <p>Natural-language page builder integrated in Drupal admin, generating validated layouts.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase2)">Style Variant Engine</div>
+        <p>AI-driven style variation within token bounds. "More editorial" → tested layout update.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase2)">Content Intelligence</div>
+        <p>SEO, alt-text, readability, inclusive language — all in-editor, AI-powered.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase2)">Multi-Brand Tenancy</div>
+        <p>Per-brand token overrides. AI is brand-context-aware. Validated palette enforcement.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase2)">Component Registry v2</div>
+        <p>100+ components. AI-discoverable component metadata for composition engine.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase2)">Evolution Feedback Loop</div>
+        <p>Instrumented editor gap signals → quarterly component backlog → platform growth.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="phase-card">
+  <div class="phase-sidebar">
+    <span class="phase-num p3">03</span>
+  </div>
+  <div class="phase-body">
+    <div class="phase-meta">
+      <span class="badge p3">Months 19–30</span>
+      <span class="badge dark">Scale Globally</span>
+      <span class="badge dark">Optimize & Evolve</span>
+    </div>
+    <div class="phase-title">Global Rollout, Self-Service & Continuous Intelligence</div>
+    <p><strong>The goal of Phase 3</strong> is to make the platform the default way all enterprise web properties are built and operated. Full global rollout, self-service site provisioning, proactive AI-driven quality management, and a platform that continuously improves itself based on performance and usage data.</p>
+
+    <h3 style="margin-top:1.5rem;">Key Activities</h3>
+    <p><strong>Self-Service Site Provisioning:</strong> Authorized teams can spin up a new Drupal site instance via a GitOps workflow in under 30 minutes. The site arrives pre-configured with the correct brand token set, component library version, security baseline, quality gates, and CI/CD pipeline. No central team involvement required for provisioning.</p>
+    <p><strong>Proactive Quality Intelligence:</strong> Move from reactive to proactive quality management. AI monitors all live sites continuously, flags regressions in accessibility, performance, or security, and auto-generates remediation PRs where possible. The governance cockpit becomes a live health system rather than a periodic audit tool.</p>
+    <p><strong>AI-Driven A/B Testing:</strong> The platform can autonomously propose and run layout experiments based on analytics signals. AI proposes variant layouts (within design system bounds), A/B tests them, and surfaces winners for editor approval. Continuous conversion and engagement optimization at scale.</p>
+    <p><strong>Design System as a Living Standard:</strong> Establish a formal RFC (Request for Change) process where any team globally can propose component additions, token changes, or pattern updates. AI assists in evaluating proposals for consistency, accessibility, and duplication. Platform team reviews quarterly; approved changes ship to all sites automatically.</p>
+    <p><strong>Federated Governance Model:</strong> Central platform team maintains the foundation layer and token system. Regional/brand platform teams maintain their token overlays. Site teams operate with full self-service within their scope. Escalation paths are clear; autonomy is maximized at each level without sacrificing global standards.</p>
+
+    <div class="deliverables">
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase3)">Self-Service Provisioning</div>
+        <p>New Drupal site live in &lt;30 min. GitOps-driven. Full platform config included.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase3)">Proactive Quality AI</div>
+        <p>Continuous monitoring with auto-remediation PRs for a11y, perf, and security.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase3)">AI A/B Testing</div>
+        <p>Autonomous layout experiments within design bounds. Data-driven UX evolution.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase3)">Living Design Standard</div>
+        <p>RFC process for platform evolution. AI-assisted proposal evaluation. Global auto-deploy.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase3)">Federated Governance</div>
+        <p>Central + regional + site-level autonomy. Clear scope boundaries. Escalation paths.</p>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-title" style="color:var(--phase3)">Component Registry v3</div>
+        <p>200+ components. Community contributions. AI-maintained documentation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- ══════════════════════════ END STATE ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2>The End State: <em>How Websites Are Built</em></h2>
+  </div>
+
+  <p style="max-width:70ch;margin-bottom:2.5rem;">In the mature platform, building a new page or site is a <strong>composition act, not a development act</strong>. Here is a concrete walk-through of what this looks like for a global marketing team launching a campaign site.</p>
+
+  <div class="flow-diagram">
+    <div class="flow-node dark">
+      <span class="flow-emoji">🌐</span>
+      <h3>1. Provision</h3>
+      <p>Team requests a site via self-service portal. GitOps deploys a Drupal instance in &lt;30 min with brand tokens, component library, security, and CI pre-configured.</p>
+    </div>
+    <div class="flow-node">
+      <span class="flow-emoji">💬</span>
+      <h3>2. Prompt</h3>
+      <p>Content lead describes the page in natural language. AI proposes 4 layout options using only approved components and the brand's token set.</p>
+    </div>
+    <div class="flow-node">
+      <span class="flow-emoji">✏️</span>
+      <h3>3. Compose</h3>
+      <p>Editor selects a layout, populates content fields, and uses AI to generate copy variants, SEO metadata, and image alt text. All in the Drupal authoring UI.</p>
+    </div>
+    <div class="flow-node">
+      <span class="flow-emoji">✅</span>
+      <h3>4. Validate</h3>
+      <p>On save, automated gates check WCAG AA, Core Web Vitals, security headers, and brand token compliance. Failures block publish with actionable fix suggestions.</p>
+    </div>
+    <div class="flow-node dark">
+      <span class="flow-emoji">🚀</span>
+      <h3>5. Deploy</h3>
+      <p>Passing pages deploy to CDN across all regions. Live monitoring begins. AI flags regressions and proposes fixes proactively.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>A regional marketing team in Singapore can launch a fully accessible, brand-compliant, high-performance campaign site in two days — without a developer, a design review, or a security audit — because the platform has already done all three, structurally.</p>
+    <cite>— Target State Capability</cite>
+  </div>
+
+  <h3 style="margin-bottom:1.5rem;">What Each Stakeholder Gains</h3>
+  <table class="gov-table">
+    <thead>
+      <tr>
+        <th>Stakeholder</th>
+        <th>Pain Today</th>
+        <th>Capability in End State</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Site Owner / Editor</td>
+        <td>Dependent on devs for layout changes; limited creative control; post-hoc accessibility surprises</td>
+        <td>AI-assisted composition, immediate feedback on quality, full visual flexibility within the validated envelope</td>
+      </tr>
+      <tr>
+        <td>Brand / Design Team</td>
+        <td>Continuous fire-fighting of off-brand implementations; can't scale design reviews globally</td>
+        <td>Design system is the only source of truth. AI enforces it. Brand reviews focus on strategy, not policing</td>
+      </tr>
+      <tr>
+        <td>Frontend Developer</td>
+        <td>Rebuilding the same components per site; no shared standards; accessibility debt</td>
+        <td>Builds components once, ships to all sites. Focus on system advancement, not repetitive implementation</td>
+      </tr>
+      <tr>
+        <td>Security Team</td>
+        <td>Manual audits of dozens of sites; inconsistent patching; reactive posture</td>
+        <td>Automated continuous scanning, centralized patch management, AI-generated remediation PRs</td>
+      </tr>
+      <tr>
+        <td>Platform / DevOps</td>
+        <td>Snowflake sites; heterogeneous stacks; uncontrolled third-party scripts</td>
+        <td>Homogeneous, GitOps-managed fleet. Every site a tenant of the same platform. One control plane</td>
+      </tr>
+      <tr>
+        <td>Legal / Compliance</td>
+        <td>GDPR, accessibility law, brand policy compliance is manual and inconsistent</td>
+        <td>Policy-as-code in the platform. Compliance is architecturally enforced, audit trails are automatic</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════════════════════ GLOBAL OPERATIONS ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <h2>Global <em>Operating Model</em></h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;">
+    <div>
+      <h3>The Federated Platform Team Structure</h3>
+      <p>Global enterprise web platforms fail when they try to centralize everything. This model uses a <strong>federated ownership model</strong> with clear scope at each level.</p>
+      <p><strong>Central Platform Team (10–15 people globally):</strong> Owns the Drupal core platform, the token system foundation, the CI/CD infrastructure, security baseline, and the component registry governance process. Operates as an internal product team with a public roadmap.</p>
+      <p><strong>Regional / Brand Platform Teams (3–5 people per brand):</strong> Own their token overlay set, regional component variants, and regional deployment pipelines. Contribute to the central registry via the RFC process. First-line support for site teams in their brand.</p>
+      <p><strong>Site Teams (1–3 people per site):</strong> Own their site's content, layout decisions within bounds, and stakeholder relationships. Consume platform capabilities as a self-service product. No Drupal core or security responsibility.</p>
+    </div>
+    <div>
+      <h3>The Governance Cockpit</h3>
+      <p>The central governance dashboard provides real-time visibility across the entire global fleet without requiring manual reporting from site teams.</p>
+      <p><strong>Tracked automatically:</strong> Component adoption rates by version, token override inventory, WCAG AA compliance score per site, Core Web Vitals P75 per region, security advisory status, Drupal core/module version currency, and AI composition usage patterns.</p>
+      <p><strong>Escalation logic:</strong> Sites with &lt;90% WCAG compliance, critical security advisories unpatched &gt;7 days, or core web vitals failing for &gt;14 days trigger automatic escalations to the regional platform team. The platform team does not need to manually monitor hundreds of sites.</p>
+
+```
+  <h3 style="margin-top:1.5rem;">Design System Versioning & Deployment</h3>
+  <p>The component registry uses <strong>semantic versioning with automated compatibility checks</strong>. Sites pin to a minor version; the platform team auto-deploys patch releases. Minor version upgrades include a compatibility report generated by AI before deployment. Major version changes include a migration assistant.</p>
+</div>
+```
+
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi-cell">
+      <div class="kpi-val">&lt;30m</div>
+      <div class="kpi-lab">New Site Launch</div>
+      <div class="kpi-desc">From request to live Drupal instance with full platform config</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">100%</div>
+      <div class="kpi-lab">WCAG AA Target</div>
+      <div class="kpi-desc">Structurally enforced — not aspirational — via publish gates</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">1</div>
+      <div class="kpi-lab">Token Source</div>
+      <div class="kpi-desc">All sites derive from a single versioned token foundation</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">~0</div>
+      <div class="kpi-lab">Design Reviews</div>
+      <div class="kpi-desc">Quality is architectural. Reviews reserved for system-level exceptions</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">Auto</div>
+      <div class="kpi-lab">Security Patches</div>
+      <div class="kpi-desc">AI-generated remediation PRs for all sites within 24h of advisory</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ TECH STACK ══════════════════════════ -->
+
+<section>
+  <div class="section-header">
+    <span class="section-number">07</span>
+    <h2>Recommended <em>Technology Stack</em></h2>
+  </div>
+
+  <div class="tech-clusters">
+    <div class="tech-cluster">
+      <h3>CMS & Content Platform</h3>
+      <ul class="tech-list">
+        <li><strong>Drupal 10/11</strong> — Core CMS, structured content, permissions</li>
+        <li><strong>Drupal SDC</strong> — Single Directory Components (native)</li>
+        <li><strong>Drupal Experience Builder</strong> — Next-gen layout composition</li>
+        <li><strong>Drupal JSON:API / GraphQL</strong> — Headless content delivery</li>
+        <li><strong>Acquia / Pantheon / Platform.sh</strong> — Managed Drupal hosting</li>
+        <li><strong>Drush / DDEV</strong> — Development toolchain</li>
+      </ul>
+    </div>
+    <div class="tech-cluster">
+      <h3>Design System & Tokens</h3>
+      <ul class="tech-list">
+        <li><strong>Figma + Tokens Studio</strong> — Design token source of truth</li>
+        <li><strong>Style Dictionary</strong> — Token compilation to CSS/JSON/Drupal</li>
+        <li><strong>Storybook 8</strong> — Component documentation & testing</li>
+        <li><strong>Chromatic</strong> — Visual regression testing in CI</li>
+        <li><strong>axe-core + Pa11y</strong> — Automated accessibility testing</li>
+        <li><strong>Backstop.js</strong> — Cross-browser visual regression</li>
+      </ul>
+    </div>
+    <div class="tech-cluster">
+      <h3>AI & Intelligence Layer</h3>
+      <ul class="tech-list">
+        <li><strong>Claude API / GPT-4o</strong> — Layout composition engine</li>
+        <li><strong>Drupal AI module</strong> — Native AI integration in Drupal</li>
+        <li><strong>Custom MCP server</strong> — Component vocabulary for AI tool use</li>
+        <li><strong>OpenAI CLIP</strong> — Image analysis for alt-text generation</li>
+        <li><strong>Lighthouse CI</strong> — Performance quality gates</li>
+        <li><strong>OWASP ZAP</strong> — Automated security scanning in CI</li>
+      </ul>
+    </div>
+    <div class="tech-cluster">
+      <h3>DevOps & Infrastructure</h3>
+      <ul class="tech-list">
+        <li><strong>GitOps (ArgoCD / Flux)</strong> — Site fleet management</li>
+        <li><strong>Kubernetes</strong> — Container orchestration for Drupal fleet</li>
+        <li><strong>Terraform</strong> — Infrastructure-as-code per site tenant</li>
+        <li><strong>Varnish + Fastly/Cloudflare</strong> — CDN & edge caching</li>
+        <li><strong>GitHub Actions</strong> — CI/CD pipeline with quality gates</li>
+        <li><strong>Datadog / Grafana</strong> — Observability, alerting</li>
+      </ul>
+    </div>
+    <div class="tech-cluster">
+      <h3>Security & Compliance</h3>
+      <ul class="tech-list">
+        <li><strong>HashiCorp Vault</strong> — Secrets management across fleet</li>
+        <li><strong>Snyk</strong> — Dependency vulnerability scanning</li>
+        <li><strong>ModSecurity / AWS WAF</strong> — Web application firewall</li>
+        <li><strong>Drupal Security Module</strong> — RBAC, audit log, 2FA</li>
+        <li><strong>Content Security Policy headers</strong> — XSS surface reduction</li>
+        <li><strong>Automated GDPR consent tools</strong> — Policy-as-code</li>
+      </ul>
+    </div>
+    <div class="tech-cluster">
+      <h3>Governance & Analytics</h3>
+      <ul class="tech-list">
+        <li><strong>Custom Governance Cockpit</strong> — React dashboard on Drupal APIs</li>
+        <li><strong>PostHog / Amplitude</strong> — Editor behavior analytics</li>
+        <li><strong>Matomo</strong> — Privacy-first visitor analytics</li>
+        <li><strong>Jira / Linear</strong> — RFC & component backlog management</li>
+        <li><strong>Confluence / Notion</strong> — Design system documentation</li>
+        <li><strong>Dependabot</strong> — Automated dependency update PRs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ CLOSING ══════════════════════════ -->
+
+<section style="border-bottom:none;">
+  <div class="section-header">
+    <span class="section-number">08</span>
+    <h2>Critical <em>Success Factors</em></h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;">
+    <div>
+      <h3>Design System Discipline</h3>
+      <p>The entire architecture collapses if the design token system is not maintained with engineering-grade rigor. Treat it as a product, not a project. Assign clear ownership, versioning, and a public roadmap. Never allow components to ship without token compliance.</p>
+    </div>
+    <div>
+      <h3>AI as Assistant, Not Autopilot</h3>
+      <p>AI generates proposals; humans approve them. The system's value comes from <strong>dramatically reducing the cost of good decisions</strong>, not from removing human judgment. Editors who understand why the system works will be better collaborators with the AI than those who simply click "accept."</p>
+    </div>
+    <div>
+      <h3>Federated Community Building</h3>
+      <p>The platform's long-term quality depends on site teams feeling like <strong>contributors, not just consumers</strong>. Invest in the RFC process, run quarterly design system community calls, celebrate component contributions, and make the feedback loop visible. Governance that feels participatory sustains adoption.</p>
+    </div>
+    <div>
+      <h3>Incremental Migration</h3>
+      <p>Do not attempt a big-bang migration of all sites. Use a <strong>strangler fig pattern</strong>: new pages use new components, old pages migrate on next major update. Measure adoption by component coverage, not site count. Progress should be visible within weeks of Phase 1 launch.</p>
+    </div>
+    <div>
+      <h3>Security as Default, Not Add-On</h3>
+      <p>Security requirements must be <strong>baked into the component contract</strong> from day one. A component that fails security review does not enter the registry. Retrofitting security into a live fleet of components is orders of magnitude more expensive than requiring it upfront.</p>
+    </div>
+    <div>
+      <h3>Measure What Matters</h3>
+      <p>Track <strong>time-to-publish, a11y regression rate, component reuse ratio, and editor satisfaction</strong> — not lines of code or component count. The platform's value is measured in editor productivity and quality outcomes, not engineering output. Make these metrics visible to all stakeholders from day one.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:3rem;">
+    <p>This is not a technology project. It is a product strategy that uses technology to give every web team in the enterprise the creative power of a design agency and the quality discipline of a platform engineering team — simultaneously, at global scale.</p>
+    <cite>— Strategic Summary</cite>
+  </div>
+</section>
+
+<footer>
+  <span>Enterprise WebCM Architecture Concept · Drupal + AI-Augmented Design System</span>
+  <span>Confidential Strategic Blueprint · 2025+</span>
+</footer>
+
+</body>
+</html>
