@@ -67,6 +67,8 @@ A regional marketing team in Singapore launches a fully accessible, brand-compli
 
 ## 2. High-Level Architecture
 
+![Architecture Overview](./assets/images/ArchitectureOverview.png)
+
 The platform is organized in five layers, each with a clear responsibility and a clean interface to the layers above and below.
 
 ```
